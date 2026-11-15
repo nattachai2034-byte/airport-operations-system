@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOMS | Airport Operations Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-plane"></i>
+        </div>
+
+        <div>
+            <h2>AOMS</h2>
+            <span>Airport Operations</span>
+        </div>
+    </div>
+
+    <nav>
+        <button class="nav-item active" data-page="dashboard">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>แดชบอร์ด</span>
+        </button>
+
+        <button class="nav-item" data-page="flights">
+            <i class="fa-solid fa-plane-departure"></i>
+            <span>จัดการเที่ยวบิน</span>
+        </button>
+
+        <button class="nav-item" data-page="resources">
+            <i class="fa-solid fa-building-circle-check"></i>
+            <span>ทรัพยากรสนามบิน</span>
+        </button>
+
+        <button class="nav-item" data-page="ground">
+            <i class="fa-solid fa-truck-plane"></i>
+            <span>บริการภาคพื้น</span>
+        </button>
+
+        <button class="nav-item" data-page="baggage">
+            <i class="fa-solid fa-suitcase-rolling"></i>
+            <span>ติดตามสัมภาระ</span>
+        </button>
+
+        <button class="nav-item" data-page="staff">
+            <i class="fa-solid fa-users"></i>
+            <span>บุคลากรและอุปกรณ์</span>
+        </button>
+
+        <button class="nav-item" data-page="alerts">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>เหตุการณ์และแจ้งเตือน</span>
+        </button>
+
+        <button class="nav-item" data-page="reports">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>รายงานและวิเคราะห์</span>
+        </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="system-status">
+            <span class="status-dot"></span>
+            System Online
+        </div>
+        <small>AOMS Prototype v1.0</small>
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+
+        <div>
+            <h1 id="pageTitle">Airport Operations</h1>
+            <p id="pageSubtitle">ศูนย์ควบคุมการปฏิบัติการสนามบิน</p>
+        </div>
+
+        <div class="top-actions">
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="globalSearch" type="text"
+                       placeholder="ค้นหาเที่ยวบิน...">
+            </div>
+
+            <button class="notification-btn" onclick="openPage('alerts')">
+                <i class="fa-regular fa-bell"></i>
+                <span id="notificationCount">3</span>
+            </button>
+
+            <div class="profile">
+                <div class="avatar">OP</div>
+
+                <div>
+                    <strong>Operations</strong>
+                    <small>Airport Operator</small>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="dashboard">
+
+        <div class="hero">
+
+            <div>
+                <span class="hero-label">
+                    <i class="fa-solid fa-circle"></i>
+                    LIVE OPERATIONS
+                </span>
+
+                <h2>Airport Operations Control Center</h2>
+
+                <p>
+                    ภาพรวมการดำเนินงานและทรัพยากรของสนามบินแบบเรียลไทม์
+                </p>
+            </div>
+
+            <div class="hero-time">
+                <span id="currentDate"></span>
+                <strong id="currentTime"></strong>
+            </div>
+
+        </div>
+
+
+        <!-- KPI -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-plane"></i>
+                </div>
+
+                <div>
+                    <span>เที่ยวบินวันนี้</span>
+                    <h3>328</h3>
+                    <small class="positive">↑ 6% จากเมื่อวาน</small>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-plane-arrival"></i>
+                </div>
+
+                <div>
+                    <span>เที่ยวบินขาเข้า</span>
+                    <h3>164</h3>
+                    <small>Arrival</small>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-plane-departure"></i>
+                </div>
+
+                <div>
+                    <span>เที่ยวบินขาออก</span>
+                    <h3>164</h3>
+                    <small>Departure</small>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-door-open"></i>
+                </div>
+
+                <div>
+                    <span>Gate ที่ใช้งาน</span>
+                    <h3>82 / 96</h3>
+                    <small>85% Utilization</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+            <!-- FLIGHTS -->
+            <div class="card large-card">
+
+                <div class="card-header">
+                    <div>
+                        <h3>
+                            <i class="fa-solid fa-plane"></i>
+                            สถานะเที่ยวบินแบบเรียลไทม์
+                        </h3>
+
+                        <p>ข้อมูลเที่ยวบินล่าสุดภายในสนามบิน</p>
+                    </div>
+
+                    <button class="text-btn" onclick="openPage('flights')">
+                        ดูทั้งหมด →
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>เที่ยวบิน</th>
+                            <th>เส้นทาง</th>
+                            <th>เวลา</th>
+                            <th>Gate</th>
+                            <th>สถานะ</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="dashboardFlightTable"></tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+            <!-- RESOURCE -->
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <h3>การใช้ทรัพยากร</h3>
+                        <p>Resource utilization</p>
+                    </div>
+                </div>
+
+                <div class="resource-list">
+
+                    <div class="resource">
+                        <div class="resource-title">
+                            <span>Gate</span>
+                            <strong>82 / 96</strong>
+                        </div>
+
+                        <div class="progress">
+                            <div style="width:85%"></div>
+                        </div>
+                    </div>
+
+                    <div class="resource">
+                        <div class="resource-title">
+                            <span>Aircraft Stand</span>
+                            <strong>56 / 68</strong>
+                        </div>
+
+                        <div class="progress">
+                            <div style="width:82%"></div>
+                        </div>
+                    </div>
+
+                    <div class="resource">
+                        <div class="resource-title">
+                            <span>Baggage Belt</span>
+                            <strong>14 / 16</strong>
+                        </div>
+
+                        <div class="progress warning">
+                            <div style="width:88%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ALERT -->
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <h3>
+                            <i class="fa-solid fa-bell"></i>
+                            แจ้งเตือนล่าสุด
+                        </h3>
+                    </div>
+
+                    <button class="text-btn" onclick="openPage('alerts')">
+                        ดูทั้งหมด
+                    </button>
+                </div>
+
+                <div id="dashboardAlerts"></div>
+
+            </div>
+
+
+            <!-- GROUND -->
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <h3>Ground Service</h3>
+                        <p>Flight TG101</p>
+                    </div>
+                </div>
+
+                <div class="service-progress">
+
+                    <label>
+                        <span>Aircraft Cleaning</span>
+                        <strong>100%</strong>
+                    </label>
+
+                    <div class="progress">
+                        <div style="width:100%"></div>
+                    </div>
+
+
+                    <label>
+                        <span>Baggage Loading</span>
+                        <strong>85%</strong>
+                    </label>
+
+                    <div class="progress">
+                        <div style="width:85%"></div>
+                    </div>
+
+
+                    <label>
+                        <span>Refueling</span>
+                        <strong>70%</strong>
+                    </label>
+
+                    <div class="progress">
+                        <div style="width:70%"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FLIGHT MANAGEMENT -->
+    <section class="page" id="flights">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Flight Management</h2>
+                <p>จัดการข้อมูลและติดตามสถานะเที่ยวบิน</p>
+            </div>
+
+            <button class="primary-btn" onclick="openFlightModal()">
+                <i class="fa-solid fa-plus"></i>
+                เพิ่มเที่ยวบิน
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="filter-bar">
+
+                <div class="search-box inner-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input id="flightSearch"
+                           type="text"
+                           placeholder="ค้นหา Flight No. หรือเส้นทาง...">
+                </div>
+
+                <select id="flightFilter">
+                    <option value="all">สถานะทั้งหมด</option>
+                    <option value="On Time">On Time</option>
+                    <option value="Boarding">Boarding</option>
+                    <option value="Delayed">Delayed</option>
+                    <option value="Landed">Landed</option>
+                </select>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Flight</th>
+                        <th>Type</th>
+                        <th>Route</th>
+                        <th>Schedule</th>
+                        <th>Gate</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="flightTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESOURCES -->
+    <section class="page" id="resources">
+
+        <div class="section-heading">
+            <div>
+                <h2>Resource Allocation</h2>
+                <p>จัดสรร Gate, Aircraft Stand และ Baggage Belt</p>
+            </div>
+        </div>
+
+
+        <div class="stats-grid resource-stats">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-door-open"></i>
+                </div>
+
+                <div>
+                    <span>Available Gates</span>
+                    <h3>14</h3>
+                    <small>จากทั้งหมด 96</small>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-square-parking"></i>
+                </div>
+
+                <div>
+                    <span>Available Stands</span>
+                    <h3>12</h3>
+                    <small>จากทั้งหมด 68</small>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-suitcase"></i>
+                </div>
+
+                <div>
+                    <span>Available Belts</span>
+                    <h3>2</h3>
+                    <small>จากทั้งหมด 16</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <div>
+                    <h3>Resource Assignment</h3>
+                    <p>จัดสรรทรัพยากรให้แต่ละเที่ยวบิน</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Flight</th>
+                        <th>Gate</th>
+                        <th>Aircraft Stand</th>
+                        <th>Baggage Belt</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="resourceTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- GROUND SERVICE -->
+    <section class="page" id="ground">
+
+        <div class="section-heading">
+            <div>
+                <h2>Ground Services</h2>
+                <p>ติดตามกระบวนการให้บริการภาคพื้น</p>
+            </div>
+        </div>
+
+        <div id="groundCards" class="ground-grid"></div>
+
+    </section>
+
+
+    <!-- BAGGAGE -->
+    <section class="page" id="baggage">
+
+        <div class="section-heading">
+            <div>
+                <h2>Baggage Tracking</h2>
+                <p>ค้นหาและติดตามสถานะสัมภาระ</p>
+            </div>
+        </div>
+
+        <div class="baggage-search-card">
+
+            <i class="fa-solid fa-suitcase-rolling"></i>
+
+            <h2>Track Baggage</h2>
+
+            <p>
+                กรอกหมายเลข Baggage Tag เพื่อตรวจสอบสถานะ
+            </p>
+
+            <div class="baggage-search">
+
+                <input id="baggageInput"
+                       placeholder="เช่น BG1001">
+
+                <button class="primary-btn" onclick="trackBaggage()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    ค้นหา
+                </button>
+
+            </div>
+
+            <small>ทดลองใช้: BG1001, BG1002, BG1003</small>
+
+        </div>
+
+        <div id="baggageResult"></div>
+
+    </section>
+
+
+    <!-- STAFF -->
+    <section class="page" id="staff">
+
+        <div class="section-heading">
+            <div>
+                <h2>Staff & Equipment</h2>
+                <p>จัดการบุคลากรและอุปกรณ์ภาคพื้น</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <span>พนักงานปฏิบัติงาน</span>
+                    <h3>186</h3>
+                    <small>On Duty</small>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-truck"></i>
+                </div>
+                <div>
+                    <span>อุปกรณ์พร้อมใช้งาน</span>
+                    <h3>94</h3>
+                    <small>Available</small>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+                <div>
+                    <span>อยู่ระหว่างซ่อม</span>
+                    <h3>7</h3>
+                    <small>Maintenance</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+                <div>
+                    <h3>Equipment Status</h3>
+                    <p>สถานะอุปกรณ์ภาคพื้น</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Equipment ID</th>
+                        <th>ประเภท</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>GPU-001</td>
+                        <td>Ground Power Unit</td>
+                        <td>Gate A3</td>
+                        <td><span class="status on-time">In Use</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>BUS-014</td>
+                        <td>Passenger Bus</td>
+                        <td>Stand P12</td>
+                        <td><span class="status landed">Available</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>BLT-008</td>
+                        <td>Belt Loader</td>
+                        <td>Gate B7</td>
+                        <td><span class="status boarding">In Use</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>TUG-021</td>
+                        <td>Pushback Tug</td>
+                        <td>Workshop</td>
+                        <td><span class="status delayed">Maintenance</span></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ALERTS -->
+    <section class="page" id="alerts">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Incidents & Alerts</h2>
+                <p>ติดตามเหตุการณ์สำคัญภายในสนามบิน</p>
+            </div>
+
+            <button class="primary-btn" onclick="createAlert()">
+                <i class="fa-solid fa-plus"></i>
+                สร้าง Alert
+            </button>
+
+        </div>
+
+        <div id="alertList" class="alert-page-list"></div>
+
+    </section>
+
+
+    <!-- REPORTS -->
+    <section class="page" id="reports">
+
+        <div class="section-heading">
+            <div>
+                <h2>Reports & Analytics</h2>
+                <p>วิเคราะห์ประสิทธิภาพการดำเนินงานสนามบิน</p>
+            </div>
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div>
+                    <span>On-time Performance</span>
+                    <h3>91.4%</h3>
+                    <small class="positive">↑ 2.1%</small>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <span>Average Delay</span>
+                    <h3>12 min</h3>
+                    <small class="positive">↓ 4 min</small>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <span>Gate Utilization</span>
+                    <h3>85%</h3>
+                    <small>วันนี้</small>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <span>Completed Turnaround</span>
+                    <h3>96%</h3>
+                    <small>Today</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <div>
+                    <h3>Flight Operations</h3>
+                    <p>จำนวนเที่ยวบินรายชั่วโมง</p>
+                </div>
+            </div>
+
+            <div class="chart">
+
+                <div class="bar" style="height:45%">
+                    <span>12:00</span>
+                </div>
+
+                <div class="bar" style="height:65%">
+                    <span>13:00</span>
+                </div>
+
+                <div class="bar" style="height:55%">
+                    <span>14:00</span>
+                </div>
+
+                <div class="bar" style="height:80%">
+                    <span>15:00</span>
+                </div>
+
+                <div class="bar" style="height:60%">
+                    <span>16:00</span>
+                </div>
+
+                <div class="bar" style="height:75%">
+                    <span>17:00</span>
+                </div>
+
+                <div class="bar" style="height:90%">
+                    <span>18:00</span>
+                </div>
+
+                <div class="bar" style="height:72%">
+                    <span>19:00</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FLIGHT MODAL -->
+<div class="modal" id="flightModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <h3>เพิ่มเที่ยวบิน</h3>
+                <p>กรอกข้อมูลเที่ยวบินใหม่</p>
+            </div>
+
+            <button onclick="closeFlightModal()">×</button>
+
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Flight Number</label>
+                <input id="newFlightNumber" placeholder="เช่น TG105">
+            </div>
+
+            <div class="form-group">
+                <label>ประเภท</label>
+
+                <select id="newFlightType">
+                    <option>Departure</option>
+                    <option>Arrival</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>ต้นทาง</label>
+                <input id="newOrigin" placeholder="BKK">
+            </div>
+
+            <div class="form-group">
+                <label>ปลายทาง</label>
+                <input id="newDestination" placeholder="SIN">
+            </div>
+
+            <div class="form-group">
+                <label>เวลา</label>
+                <input id="newTime" type="time">
+            </div>
+
+            <div class="form-group">
+                <label>Gate</label>
+                <input id="newGate" placeholder="A3">
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+            <button class="secondary-btn"
+                    onclick="closeFlightModal()">
+                ยกเลิก
+            </button>
+
+            <button class="primary-btn"
+                    onclick="addFlight()">
+                เพิ่มเที่ยวบิน
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RESOURCE MODAL -->
+<div class="modal" id="resourceModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <div>
+                <h3>Assign Resource</h3>
+                <p id="assignFlightName"></p>
+            </div>
+
+            <button onclick="closeResourceModal()">×</button>
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Gate</label>
+
+                <select id="assignGate">
+                    <option>A1</option>
+                    <option>A3</option>
+                    <option>A5</option>
+                    <option>A6</option>
+                    <option>B7</option>
+                    <option>C2</option>
+                    <option>C6</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Aircraft Stand</label>
+
+                <select id="assignStand">
+                    <option>P10</option>
+                    <option>P11</option>
+                    <option>P12</option>
+                    <option>P13</option>
+                    <option>P14</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Baggage Belt</label>
+
+                <select id="assignBelt">
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>B4</option>
+                    <option>B5</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+            <button class="secondary-btn"
+                    onclick="closeResourceModal()">
+                ยกเลิก
+            </button>
+
+            <button class="primary-btn"
+                    onclick="saveResource()">
+                Confirm Assignment
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage"></span>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
